@@ -1,11 +1,14 @@
 <script setup>
 import { ref } from 'vue'
 
+const emit = defineEmits(['tags-update'])
+
+
 const props = defineProps({
     tagtype: String
 })
 
-const tags = ref(["strong", "tall"])
+const tags = ref([])
 const val = ref() // ref variables have to be called by .value in <script>
 
 // adding tags
@@ -16,8 +19,9 @@ function addTag (event) {
         console.log(val.value) 
         if (val.value.length > 0) {
             tags.value.push(val.value)
-            console.log(tags)
             val.value = ''
+
+            emit('tags-update', tags.value, props.tagtype)
         }
     } 
 } 
@@ -30,12 +34,14 @@ function deleteTag (index) {
 </script>
 
 <template>
-    <div v-for="(tag,index) in tags" :key="tag" class="tag-input_tag">
-        <span v-on:click="deleteTag(index)">x</span>
-        {{ tag }}
-        
+    <div>
+        <div v-for="(tag,index) in tags" :key="tag" class="tag-input_tag">
+            <span v-on:click="deleteTag(index)">x</span>
+            {{ tag }}
+            
+        </div>
+        <input type="text" placeholder="Enter a tag" class="tag-input_text" v-model="val" @keydown="addTag"/>
     </div>
-    <input type="text" placeholder="Enter a tag" class="tag-input_text" v-model="val" @keydown="addTag"/>
 </template>
 
 <style lang="scss" scoped>
