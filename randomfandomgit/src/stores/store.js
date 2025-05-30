@@ -3,8 +3,7 @@ import { ref, reactive } from 'vue';
 
 export const useStore = defineStore('store', () => {
     const characters = ref([])
-    
+    const fandoms = ref([])
 
-
-    return { characters };
+    return { characters, fandoms };
 });

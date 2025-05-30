@@ -15,13 +15,14 @@ const val = ref() // ref variables have to be called by .value in <script>
 function addTag (event) {
     if (event.code == "Comma" || event.code == "Enter") {
         console.log('Reached addTag function')
-        event.preventDefault()
-        console.log(val.value) 
-        if (val.value.length > 0) {
+        event.preventDefault()        
+        if (val.value !== undefined && val.value.length > 0) {
             tags.value.push(val.value)
             val.value = ''
 
             emit('tags-update', tags.value, props.tagtype)
+        } else {
+            console.log("no value to tag")
         }
     } 
 } 

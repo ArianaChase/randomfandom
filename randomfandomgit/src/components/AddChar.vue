@@ -2,6 +2,7 @@
 import { reactive, ref } from 'vue'
 import { useStore } from '../stores/store.js'
 import TagInput from './TagInput.vue'
+import SelectInput from './SelectInput.vue'
 
 defineProps({
    tagtype: String,
@@ -43,6 +44,12 @@ function update_tags (tags, tagtype) {
   }
 }
 
+function no_enter (event) {
+  if (event.code == 'Enter') {
+        event.preventDefault();
+  }
+}
+
 
 
 </script>
@@ -50,15 +57,16 @@ function update_tags (tags, tagtype) {
 <template>
   <div>
     <form>
-      <p>Character First Name: <input type="text" v-model="char_profile.first_name" required></p>
-      <p>Character Last Name: <input type="text" v-model="char_profile.last_name" required></p>
-
-
+      <p>Character First Name: <input type="text" v-model="char_profile.first_name" v-on:keydown="no_enter"></p>
+      <p>Character Last Name: <input type="text" v-model="char_profile.last_name" v-on:keydown="no_enter"></p>
+      <SelectInput />
+      <div style="clear: left;"></div>
+      <br />
       <TagInput tagtype="physical_traits" @tags-update="update_tags"/>
       <br />
       <TagInput tagtype="person_traits" @tags-update="update_tags"/>
       <br />
-      <button type="submit" @click="submit_profile">Done</button>
+      <button type="button" @click="submit_profile">Done</button>
     </form>
   </div>
 </template>
